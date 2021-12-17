@@ -5,7 +5,7 @@ export const Footer = document.getElementById("footer");
 export const DragAndDropURL = 'https://localhost:44308/api/DragandDrops';
 export const CrosswordURL = 'https://localhost:44308/api/crosswords';
 export const userURL = 'https://localhost:44308/api/users';
-export const swordURL = 'https://localhost:44308/api/Wordsearch';
+export const swordURL = 'https://localhost:44308/api/Wordsearch/';
 
 export const crosswordAllClues = document.getElementById("crosswordAllClues");
 

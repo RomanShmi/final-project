@@ -54,11 +54,11 @@ function SwordFunctions(y)
   
   
   function SetupGame(x){
-    console.log(">>>>>>>>>>>>>>>>>>>");
-     apiActions.getRequest(CONSTANTS.swordURL, woogy => {
-        console.log(woogy[x-1].matrix);
-  arr=(woogy[x-1].matrix).split(', ');
-  words=  (woogy[x-1].keywords).split(', ');
+    console.log(">>>>>>>>>>>>>>>>>>>"+ x);
+     apiActions.getSingleRequest(CONSTANTS.swordURL,x ,function(e) {
+        console.log(e.matrix);
+  arr=(e.matrix).split(', ');
+  words=  (e.keywords).split(', ');
   makeRows(10, 10);
   });
 
@@ -187,7 +187,7 @@ console.log("      =============SwordGameCreates=========   ");
    var start;
    var step=0;
    var Keywords=[];
-  
+  var name;
   var arr;
   var words;
   
@@ -199,20 +199,22 @@ console.log("      =============SwordGameCreates=========   ");
    
     
    
-
+  let swordTitle= document.createElement("input");
   let gide=document.createElement("lable");
   let txt= document.createElement("input");
  let btn = document.createElement("button");
  let play = document.createElement("button");
+ let save = document.createElement("button");
  btn.innerHTML = "add word";
  play.innerText="generate game";
-
+ save.innerText="save";
  gide.innerHTML="</br><p>Type word click (add word) after you have some words click (generate game) to play</p></br>";
-
+keyword.appendChild(swordTitle);
  keyword.appendChild(gide);
  keyword.appendChild(txt);
  keyword.appendChild(btn);
  keyword.appendChild(play);
+ gide.appendChild(save);
  
   
    btn.addEventListener("click", function()
@@ -224,28 +226,47 @@ console.log("      =============SwordGameCreates=========   ");
   });
 
   
-  
-   /*
+  save.addEventListener("click", function(){
+   name= swordTitle.value;
+   swordTitle.value="x";
+    SaveGame();
+   
+ });
 
-<p id="demo"></p>
->>>>>>> 91c6193c59056ee7b2777241d9c60c3edc0d4383
-
- btn.addEventListener("click", function()
- {
-  Keywords.push(txt.value);
-txt.value='';
-
-  console.log(Keywords);
-});
-
- /*/
  
  
 play.addEventListener("click", function(){
-   SetupGame();
+
+  SetupGame();
   
 });
   
+function SaveGame(){
+  console.log("save");
+
+ 
+  const newSword = {
+    
+
+
+    Title: name,
+    UserId: 1,
+    Matrix :GenerateWordSearch(Keywords)[0],
+    Keywords : Keywords.toString()
+};
+ 
+ 
+ 
+  apiActions.postRequest(CONSTANTS.swordURL, newSword ,function(e){
+
+  
+console.log("new sword saved");
+  }) 
+
+
+
+}
+
     function SetupGame(){
       console.log(">>>>>>>>>>>>>>>>>>>");
       const newSword= {
@@ -366,7 +387,7 @@ play.addEventListener("click", function(){
     let stringGrid = [];
     let answersInPuzzle = [];
     for(let i = 0; i < 100; i++){
-        stringGrid.push({char: templateString[i], touched: false});
+        stringGrid.push({string: templateString[i]+', ', touched: false});
     }
 
     console.log(stringGrid);

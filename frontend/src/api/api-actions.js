@@ -23,7 +23,7 @@ function getSingleRequest(location, id, callback) {
     fetch(location + id)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        console.log("single request"+data);
         callback(data);
       })
       .catch((err) => console.log(err));

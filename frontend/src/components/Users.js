@@ -38,9 +38,8 @@ userGamesBtn.forEach(btn =>{
 }
 
 export function displayUserProfile(id){
-  if(sword.map == undefined){
-    sword.map = [];
-  }
+ 
+  
   apiActions.getRequest(CONSTANTS.userURL + "/" + id, data =>{
     CONSTANTS.appElement.innerHTML = `
   <h1>${data.username}'s Games</h1>
@@ -63,11 +62,12 @@ export function displayUserProfile(id){
       </div>`
   }).join('')}
    <h3>Word search</h3>
-  ${data.wordsearchs.map(user => {
+  ${data.wordsearchs.map(ws => {
       return `
-      <div id="${user.id}">
-        ${user.title}
-        <button class="playSword" id = "ws-${user.id}">User Games</button> 
+      <div id="${ws.id}">
+        ${ws.title}
+        <button class="playSword" id = "ws-${ws.id}">s Games</button>
+       
         </div>  
       `;
   }).join('')}
@@ -82,6 +82,8 @@ export function setupUserProfileLinks(){
   let cws = Array.from(document.getElementsByClassName("crossword"));
   let dnds = Array.from(document.getElementsByClassName("dragAndDrop"));
   let wss =  Array.from(document.getElementsByClassName("playSword"));
+console.log(wss.id);
+
 
   cws.forEach(cw => {
     cw.addEventListener("click", function(){
@@ -99,16 +101,18 @@ dnds.forEach(dnd => {
             dragAndDrop.SetUpDragFunctions();
         });
     });
-    wss.forEach(ws => {
-      console.log(wss);
-      ws.addEventListener("click", function(){
-        console.log("WS btn clicked!")
-          let id = parseInt(ws.id.replace("ws-",""));
-              CONSTANTS.appElement.innerHTML = sword.displaySword();
-              sword.SwordFunctions(id);          
-            });
-      });
+    
 });
+wss.forEach (ws => {
+  console.log(" button id"+ws.id);
+  ws.addEventListener("click", function(){
+    console.log("WS btn clicked!")
+      let id = parseInt(ws.id.replace("ws-",""));
+          CONSTANTS.appElement.innerHTML = sword.displaySword();
+          sword.SwordFunctions(id);          
+        });
+  });
+
 }
 
 
@@ -120,6 +124,8 @@ export function SetUpSwordStart() {
     let playSword = document.querySelectorAll(".playSword");
    
     playSword.forEach((button) => {
+
+      console.log(" Id for wordsearch    "+ index);
       button.addEventListener("click", () => {
         let currentId = parseInt(button.id.replace("ws-", ""));
         console.log(" Id for wordsearch    "+ currentId);
